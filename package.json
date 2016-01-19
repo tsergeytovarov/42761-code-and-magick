@@ -1,0 +1,27 @@
+{
+  "name": "42761-code-and-magick",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Личный проект «Код и магия» от HTML Academy",
+  "author": "Сергей Попов",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/htmlacademy-javascript/42761-code-and-magick.git"
+  },
+  "bugs": {
+    "url": "https://github.com/htmlacademy-javascript/42761-code-and-magick/issues"
+  },
+  "homepage": "https://github.com/htmlacademy-javascript/42761-code-and-magick",
+  "dependencies": {
+    "eslint": "^1.10.3",
+    "http-server": "^0.8.5"
+  },
+  "scripts": {
+    "gosha": "make",
+    "test": "eslint js/",
+    "start": "http-server ."
+  },
+  "engines": {
+    "node": "^5.0.0"
+  }
+}

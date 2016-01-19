@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Mono&subset=latin,cyrillic">
+  <link rel="stylesheet" href="css/main.css">
+  <title>Код и Магия</title>
+</head>
+<body>
+
+<header>
+  <div class="header-clouds"></div>
+  <div class="header-fence"></div>
+  <div class="header-tree"></div>
+
+  <span class="header-soon">Скоро</span>
+  <h1 class="header-title">Code&thinsp;and&thinsp;Magick</h1>
+  <p class="header-description">
+    Это игра, где главного героя, которым вам предстоит управлять и изменять заклинаниями окружающий мир зовут Пендальф Синий.
+    Вместе с ним вас ждет увлекательное приключение&hellip;
+  </p>
+
+  <div class="demo"></div>
+</header>
+
+<main>
+  <section class="main-section photogallery">
+    <h2 class="section-title photogallery-title">Фотогалерея</h2>
+    <a href="#" class="photogallery-image"><img src="img/screenshots/1.png" width="292"></a>
+    <a href="#" class="photogallery-image"><img src="img/screenshots/2.png" width="292"></a>
+    <a href="#" class="photogallery-image"><img src="img/screenshots/3.png" width="292"></a>
+    <a href="#" class="photogallery-image"><img src="img/screenshots/4.png" height="271"></a>
+    <a href="#" class="photogallery-image"><img src="img/screenshots/5.png" height="271"></a>
+    <a href="#" class="photogallery-image" data-replacement-video="img/screenshots/cm-sample.mp4"><img src="img/screenshots/6.png" width="292"></a>
+  </section>
+
+  <section class="main-section reviews">
+    <h2 class="section-title reviews-title">Отзывы</h2>
+
+    <form class="reviews-filter" action="index.html" method="get">
+      <input type="radio" name="reviews" id="reviews-all" value="reviews-all" checked><label for="reviews-all" class="reviews-filter-item"> Все</label>
+      <input type="radio" name="reviews" id="reviews-recent" value="reviews-recent"><label for="reviews-recent" class="reviews-filter-item"> Недавние</label>
+      <input type="radio" name="reviews" id="reviews-good" value="reviews-good"><label for="reviews-good" class="reviews-filter-item"> Хорошие</label>
+      <input type="radio" name="reviews" id="reviews-bad" value="reviews-bad"><label for="reviews-bad" class="reviews-filter-item"> Плохие</label>
+      <input type="radio" name="reviews" id="reviews-popular" value="reviews-popular"><label for="reviews-popular" class="reviews-filter-item"> Популярные</label>
+    </form>
+
+    <div class="reviews-list"></div>
+
+    <div class="reviews-controls">
+      <span class="reviews-controls-item reviews-controls-more invisible">Ещё отзывы</span>
+      <span class="reviews-controls-item reviews-controls-new">+ Добавить свой</span>
+    </div>
+  </section>
+
+  <footer>
+    <a href="http://htmlacademy.ru"><img src="img/htmlacademy-logo.png" alt="HTML Academy" width="134" height="37"></a>
+    <p><a href="http://htmlacademy.ru">Сделано в HTML Academy</a><br>в 2016 году</p>
+  </footer>
+</main>
+
+<div class="overlay-container invisible">
+  <form class="overlay review-form" action="index.html" method="post">
+    <h2 class="review-form-title">Оставить отзыв</h2>
+    <span class="review-form-close">&times;</span>
+
+    <fieldset class="review-form-group review-form-group-mark">
+      <span class="review-form-label">Оценка</span><br>
+      <input type="radio" name="review-mark" id="review-mark-1" value="1"><label class="review-mark-label review-mark-label-1" for="review-mark-2">1</label>
+      <input type="radio" name="review-mark" id="review-mark-2" value="2"><label class="review-mark-label review-mark-label-2" for="review-mark-2">2</label>
+      <input type="radio" name="review-mark" id="review-mark-3" value="3" checked><label class="review-mark-label review-mark-label-3" for="review-mark-3">3</label>
+      <input type="radio" name="review-mark" id="review-mark-4" value="4"><label class="review-mark-label review-mark-label-4" for="review-mark-4">4</label>
+      <input type="radio" name="review-mark" id="review-mark-5" value="5"><label class="review-mark-label review-mark-label-5" for="review-mark-5">5</label>
+    </fieldset>
+
+    <fieldset class="review-form-group">
+      <label for="review-name" class="review-form-label">Имя</label><br>
+      <input type="text" name="review-name" id="review-name" class="review-form-field review-form-field-name">
+    </fieldset>
+
+    <fieldset class="review-form-group">
+      <label for="review-text" class="review-form-label">Отзыв</label><br>
+      <textarea name="review-text" id="review-text" class="review-form-field review-form-field-text" cols="32" rows="8"></textarea>
+    </fieldset>
+
+    <div class="review-form-controls">
+      <button class="review-form-control review-submit" type="submit">Добавить отзыв</button>
+      <div class="review-form-control review-fields">
+        Осталось заполнить:<br>
+        <label for="review-name" class="review-fields-label review-fields-name">имя</label>
+        <label for="review-text" class="review-fields-label review-fields-text">отзыв</label>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="overlay-gallery invisible">
+  <span class="overlay-gallery-close">&times;</span>
+  <div class="overlay-gallery-controls">
+    <div class="overlay-gallery-control overlay-gallery-control-left"></div>
+    <div class="overlay-gallery-preview">
+      <div class="overlay-gallery-preview-number"><span class="preview-number-current">1</span> из <span class="preview-number-total">5</span></div>
+    </div>
+    <div class="overlay-gallery-control overlay-gallery-control-right"></div>
+  </div>
+</div>
+
+
+<template id="review-template">
+  <article class="review">
+    <img src="" class="review-author" alt="" title="">
+    <span class="review-rating"></span>
+    <p class="review-text"></p>
+    <div class="review-quiz">
+      Полезный отзыв?
+      <span class="review-quiz-answer review-quiz-answer-yes">Да</span>
+      <span class="review-quiz-answer review-quiz-answer-no">Нет</span>
+    </div>
+  </article>
+</template>
+
+<script src="js/form.js"></script>
+
+</body>
+</html>
