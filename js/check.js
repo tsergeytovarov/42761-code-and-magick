@@ -14,10 +14,10 @@ function getMessage(a, b) {
     return 'Я прыгнул на ' + a * 100 + ' сантиметров';
   }
 
-  if (typeof a === 'object') {
+  if (Array.isArray(a)) {
     var sum = 0, i = 0;
 
-    if (typeof b === 'object') {
+    if (Array.isArray(b)) {
       for (i = 0; i < a.length; i++) {
         sum = sum + (a[i] * b[i]);
       }
