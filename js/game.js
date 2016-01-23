@@ -422,18 +422,19 @@
      * @private
      */
     _drawMessage: function(coords, color, message) {
+      var drawString = '';
+      var drawStringCoordTop = coords[0][0];
+      var drawStringCoordLeft = coords[0][1] + 10;
+      var messageAreaWidth = coords[1][0] - coords[0][0];
+      var TOP_STEP = -10;
+      var LEFT_STEP = 20;
+
+      var messageHeight = this._getMessageHeight(messageAreaWidth, message, LEFT_STEP);
+
       this._drawMessageByCoords(coords, 'rgba(0, 0, 0, 0.7)', 0);
       this._drawMessageByCoords(coords, '#ffffff', 10);
       this.ctx.font = '16px PT Mono';
       this.ctx.fillStyle = color;
-
-      var messageAreaWidth = coords[1][0] - coords[0][0];
-      var drawString = '';
-      var drawStringCoordTop = coords[0][0];
-      var drawStringCoordLeft = coords[0][1] + 10;
-      var TOP_STEP = -10;
-      var LEFT_STEP = 20;
-      var messageDrawHeight = 10;
 
       for (var i = 0; i < message.length; i++) {
         drawString = drawString + message[i];
@@ -442,15 +443,35 @@
           drawString = '';
           drawStringCoordTop = drawStringCoordTop + TOP_STEP;
           drawStringCoordLeft = drawStringCoordLeft + LEFT_STEP;
-          messageDrawHeight = messageDrawHeight + LEFT_STEP;
         }
         if (i + 1 === message.length) {
           this.ctx.fillText(drawString, drawStringCoordTop, drawStringCoordLeft);
-          messageDrawHeight = messageDrawHeight + LEFT_STEP;
+        }
+      }
+
+    },
+
+    /**
+     * Функция которая возвращает высоту будущего поля
+     * @param {Number} width
+     * @param {String} message
+     * @return {Number}
+     * @private
+     */
+    _getMessageHeight: function(width, message, step) {
+      var messageDrawHeight = 10;
+      var widthString = '';
+      for (var i = 0; i < message.length; i++) {
+        widthString = widthString + message[i];
+        if (this.ctx.measureText(widthString).width > width - 30) {
+          widthString = '';
+          messageDrawHeight = messageDrawHeight + step;
+        }
+        if (i + 1 === message.length) {
+          messageDrawHeight = messageDrawHeight + step;
         }
       }
       messageDrawHeight = messageDrawHeight + 10;
-
     },
 
     /**
