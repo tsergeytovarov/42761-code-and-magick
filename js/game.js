@@ -500,7 +500,7 @@
      * @param {Number} translate
      * @private
      */
-    _drawMessageByCoords: function(coords, color, translate, height) {
+    _drawMessageByCoords: function(coords, color, translate) {
       this.ctx.fillStyle = color;
       for (var i = 0; i <= coords.length; i++) {
         if (i === 0) {
