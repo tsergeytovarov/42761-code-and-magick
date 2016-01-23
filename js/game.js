@@ -378,28 +378,32 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-
+      var message = '';
+      var messageCoords = [];
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-
-          this._drawMessage(messageCoords, 'green', 'Поздравляю! Тебе удалось таки попасть фаерболом в крону этого замечательного дерева!');
-
+          message = 'Поздравляю! Тебе удалось таки попасть фаерболом в крону этого замечательного дерева!';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, 'green', message);
           break;
+
         case Verdict.FAIL:
-
-          this._drawMessage(messageCoords, 'red', 'Неудачи порой случаются! Не расстраивайся и давай ещё раз.');
-
+          message = 'Неудачи порой случаются! Не расстраивайся и давай ещё раз.';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, 'red', message);
           break;
+
         case Verdict.PAUSE:
-
-          this._drawMessage(messageCoords, '#000000', 'Игра поставлена на пауза. Сходи налей себе чаю.');
-
+          message = 'Игра поставлена на пауза. Сходи налей себе чаю.';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, '#000000', message);
           break;
+
         case Verdict.INTRO:
-
-          this._drawMessage(messageCoords, '#000000', 'Привет! Чтобы прыгнуть жми пробел,для стрельбы левый шифт. И да прибудет с тобой сила.');
-
+          message = 'Привет! Чтобы прыгнуть жми пробел,для стрельбы левый шифт. И да прибудет с тобой сила.';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, '#000000', message);
           break;
       }
     },
@@ -411,12 +415,11 @@
      * @private
      */
     _getMessageCoords: function(message) {
-      var messageWidth = this.canvas.width / 2
+      var messageWidth = this.canvas.width / 2;
+      var LEFT_STEP = 20;
+      var messageHeight = this._getMessageHeight(messageWidth, message, LEFT_STEP);
       var messageTop = (this.canvas.width / 2) - (messageWidth / 2);
       var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
-      var LEFT_STEP = 20;
-
-      var messageHeight = this._getMessageHeight(messageWidth, message, LEFT_STEP);
 
       var messageCoords = [
         [messageTop + 60, messageLeft],
@@ -426,7 +429,7 @@
       ];
 
       return messageCoords;
-    }
+    },
 
     /**
      * Функция которая рисует сообщение
@@ -485,6 +488,7 @@
         }
       }
       messageDrawHeight = messageDrawHeight + 10;
+      console.log(messageDrawHeight);
       return messageDrawHeight;
     },
 
