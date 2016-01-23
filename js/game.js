@@ -392,27 +392,23 @@
       switch (this.state.currentStatus) {
         case Verdict.WIN:
 
-          this._drawMessage(messageCoords, 'green', '16px PT Mono', 'you have won!');
+          this._drawMessage(messageCoords, 'green', 'Поздравляю! Тебе удалось таки попасть фаерболом в крону этого замечательного дерева!');
 
-          console.log('you have won!');
           break;
         case Verdict.FAIL:
 
-          this._drawMessage(messageCoords, 'red', '16px PT Mono', 'you have failed!');
+          this._drawMessage(messageCoords, 'red', 'Неудачи порой случаются! Не расстраивайся и давай ещё раз.');
 
-          console.log('you have failed!');
           break;
         case Verdict.PAUSE:
 
-          this._drawMessage(messageCoords, '#000000', '16px PT Mono', 'game is on pause!');
+          this._drawMessage(messageCoords, '#000000', 'Игра поставлена на пауза. Сходи налей себе чаю.');
 
-          console.log('game is on pause!');
           break;
         case Verdict.INTRO:
 
-          this._drawMessage(messageCoords, '#000000', '16px PT Mono', 'welcome to the game! Press Space to start');
+          this._drawMessage(messageCoords, '#000000', 'Привет! Чтобы прыгнуть жми пробел,для стрельбы левый шифт. И да прибудет с тобой сила.');
 
-          console.log('welcome to the game! Press Space to start');
           break;
       }
     },
@@ -425,12 +421,36 @@
      * @param {String} message
      * @private
      */
-    _drawMessage: function(coords, color, font, message) {
+    _drawMessage: function(coords, color, message) {
       this._drawMessageByCoords(coords, 'rgba(0, 0, 0, 0.7)', 0);
       this._drawMessageByCoords(coords, '#ffffff', 10);
-      this.ctx.font = font;
+      this.ctx.font = '16px PT Mono';
       this.ctx.fillStyle = color;
-      this.ctx.fillText(message, coords[0][0] + 10, coords[0][1] + 10);
+
+      var messageAreaWidth = coords[1][0] - coords[0][0];
+      var drawString = '';
+      var drawStringCoordTop = coords[0][0];
+      var drawStringCoordLeft = coords[0][1] + 10;
+      var TOP_STEP = -10;
+      var LEFT_STEP = 20;
+      var messageDrawHeight = 10;
+
+      for (var i = 0; i < message.length; i++) {
+        drawString = drawString + message[i];
+        if (this.ctx.measureText(drawString).width > messageAreaWidth - 30) {
+          this.ctx.fillText(drawString, drawStringCoordTop, drawStringCoordLeft);
+          drawString = '';
+          drawStringCoordTop = drawStringCoordTop + TOP_STEP;
+          drawStringCoordLeft = drawStringCoordLeft + LEFT_STEP;
+          messageDrawHeight = messageDrawHeight + LEFT_STEP;
+        }
+        if (i + 1 === message.length) {
+          this.ctx.fillText(drawString, drawStringCoordTop, drawStringCoordLeft);
+          messageDrawHeight = messageDrawHeight + LEFT_STEP;
+        }
+      }
+      messageDrawHeight = messageDrawHeight + 10;
+
     },
 
     /**
