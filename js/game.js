@@ -389,8 +389,45 @@
           console.log('game is on pause!');
           break;
         case Verdict.INTRO:
+          var messageWidth = this.canvas.width / 2;
+          var messageHeight = this.canvas.height / 2;
+          var messageTop = (this.canvas.width / 2) - (messageWidth / 2);
+          var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
+          var messageCoords = [
+            [messageTop + 60, messageLeft],
+            [messageTop + 60 + messageWidth, messageLeft],
+            [messageTop + messageWidth, messageLeft + messageHeight],
+            [messageTop, messageLeft + messageHeight]
+          ];
+
+          this._drawMessageByCoords(messageCoords, 'rgba(0, 0, 0, 0.7)', 0);
+          this._drawMessageByCoords(messageCoords, '#ffffff', 10);
+
           console.log('welcome to the game! Press Space to start');
           break;
+      }
+    },
+
+    /**
+     * Функция которая рисует фигуру для сообщения по координатам
+     * и делает ему тень
+     * @param {Array} coords
+     * @param {String} color
+     * @param {Number} translate
+     * @private
+     */
+    _drawMessageByCoords: function(coords, color, translate) {
+      this.ctx.fillStyle = color;
+      for (var i = 0; i <= coords.length; i++) {
+        if (i === 0) {
+          this.ctx.beginPath();
+          this.ctx.moveTo(coords[i][0] - translate, coords[i][1] - translate);
+        } else if (i === coords.length) {
+          this.ctx.lineTo(coords[0][0] - translate, coords[0][1] - translate);
+          this.ctx.fill();
+        } else {
+          this.ctx.lineTo(coords[i][0] - translate, coords[i][1] - translate);
+        }
       }
     },
 
