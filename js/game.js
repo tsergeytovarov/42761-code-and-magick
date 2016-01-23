@@ -485,6 +485,7 @@
         }
       }
       messageDrawHeight = messageDrawHeight + 10;
+      return messageDrawHeight;
     },
 
     /**
