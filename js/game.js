@@ -378,34 +378,59 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var messageWidth = this.canvas.width / 2;
+      var messageHeight = this.canvas.height / 2;
+      var messageTop = (this.canvas.width / 2) - (messageWidth / 2);
+      var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
+      var messageCoords = [
+        [messageTop + 60, messageLeft],
+        [messageTop + 60 + messageWidth, messageLeft],
+        [messageTop + messageWidth, messageLeft + messageHeight],
+        [messageTop, messageLeft + messageHeight]
+      ];
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
+
+          this._drawMessage(messageCoords, 'green', '16px PT Mono', 'you have won!');
+
           console.log('you have won!');
           break;
         case Verdict.FAIL:
+
+          this._drawMessage(messageCoords, 'red', '16px PT Mono', 'you have failed!');
+
           console.log('you have failed!');
           break;
         case Verdict.PAUSE:
+
+          this._drawMessage(messageCoords, '#000000', '16px PT Mono', 'game is on pause!');
+
           console.log('game is on pause!');
           break;
         case Verdict.INTRO:
-          var messageWidth = this.canvas.width / 2;
-          var messageHeight = this.canvas.height / 2;
-          var messageTop = (this.canvas.width / 2) - (messageWidth / 2);
-          var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
-          var messageCoords = [
-            [messageTop + 60, messageLeft],
-            [messageTop + 60 + messageWidth, messageLeft],
-            [messageTop + messageWidth, messageLeft + messageHeight],
-            [messageTop, messageLeft + messageHeight]
-          ];
 
-          this._drawMessageByCoords(messageCoords, 'rgba(0, 0, 0, 0.7)', 0);
-          this._drawMessageByCoords(messageCoords, '#ffffff', 10);
+          this._drawMessage(messageCoords, '#000000', '16px PT Mono', 'welcome to the game! Press Space to start');
 
           console.log('welcome to the game! Press Space to start');
           break;
       }
+    },
+
+    /**
+     * Функция которая рисует сообщение
+     * @param {Array} coords
+     * @param {String} color
+     * @param {String} font
+     * @param {String} message
+     * @private
+     */
+    _drawMessage: function(coords, color, font, message) {
+      this._drawMessageByCoords(coords, 'rgba(0, 0, 0, 0.7)', 0);
+      this._drawMessageByCoords(coords, '#ffffff', 10);
+      this.ctx.font = font;
+      this.ctx.fillStyle = color;
+      this.ctx.fillText(message, coords[0][0] + 10, coords[0][1] + 10);
     },
 
     /**
