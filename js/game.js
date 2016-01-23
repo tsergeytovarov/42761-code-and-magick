@@ -378,16 +378,7 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-      var messageWidth = this.canvas.width / 2;
-      var messageHeight = this.canvas.height / 2;
-      var messageTop = (this.canvas.width / 2) - (messageWidth / 2);
-      var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
-      var messageCoords = [
-        [messageTop + 60, messageLeft],
-        [messageTop + 60 + messageWidth, messageLeft],
-        [messageTop + messageWidth, messageLeft + messageHeight],
-        [messageTop, messageLeft + messageHeight]
-      ];
+
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
@@ -414,6 +405,30 @@
     },
 
     /**
+     * Функция которая возвращает координаты будущего сообщения с учётом высоты сообщения
+     * @param {String} message
+     * @return {Array}
+     * @private
+     */
+    _getMessageCoords: function(message) {
+      var messageWidth = this.canvas.width / 2
+      var messageTop = (this.canvas.width / 2) - (messageWidth / 2);
+      var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
+      var LEFT_STEP = 20;
+
+      var messageHeight = this._getMessageHeight(messageWidth, message, LEFT_STEP);
+
+      var messageCoords = [
+        [messageTop + 60, messageLeft],
+        [messageTop + 60 + messageWidth, messageLeft],
+        [messageTop + messageWidth, messageLeft + messageHeight],
+        [messageTop, messageLeft + messageHeight]
+      ];
+
+      return messageCoords;
+    }
+
+    /**
      * Функция которая рисует сообщение
      * @param {Array} coords
      * @param {String} color
@@ -428,8 +443,6 @@
       var messageAreaWidth = coords[1][0] - coords[0][0];
       var TOP_STEP = -10;
       var LEFT_STEP = 20;
-
-      var messageHeight = this._getMessageHeight(messageAreaWidth, message, LEFT_STEP);
 
       this._drawMessageByCoords(coords, 'rgba(0, 0, 0, 0.7)', 0);
       this._drawMessageByCoords(coords, '#ffffff', 10);
@@ -482,7 +495,7 @@
      * @param {Number} translate
      * @private
      */
-    _drawMessageByCoords: function(coords, color, translate) {
+    _drawMessageByCoords: function(coords, color, translate, height) {
       this.ctx.fillStyle = color;
       for (var i = 0; i <= coords.length; i++) {
         if (i === 0) {
