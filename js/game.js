@@ -378,19 +378,184 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var message = '';
+      var messageCoords = [];
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          message = 'Поздравляю! Тебе удалось таки попасть фаерболом в крону этого замечательного дерева!';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, 'green', message);
           break;
+
         case Verdict.FAIL:
-          console.log('you have failed!');
+          message = 'Неудачи порой случаются! Не расстраивайся и давай ещё раз.';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, 'red', message);
           break;
+
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          message = 'Игра поставлена на пауза. Сходи налей себе чаю.';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, '#000000', message);
           break;
+
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          message = 'Привет! Чтобы прыгнуть жми пробел, для стрельбы левый шифт. И да прибудет с тобой сила.';
+          messageCoords = this._getMessageCoords(message);
+          this._drawMessage(messageCoords, '#000000', message);
           break;
+      }
+    },
+
+    /**
+     * Функция которая возвращает координаты будущего сообщения с учётом высоты сообщения
+     * @param {string} message
+     * @return {Array.<Array>}
+     * @private
+     */
+    _getMessageCoords: function(message) {
+      var messageWidth = this.canvas.width / 2;
+      var LEFT_STEP = 20;
+      var messageHeight = this._getMessageHeight(messageWidth, message, LEFT_STEP);
+      var messageTop = (this.canvas.width / 2) - (messageWidth / 2);
+      var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
+
+      var messageCoords = [
+        [messageTop + 30, messageLeft],
+        [messageTop + 30 + messageWidth, messageLeft],
+        [messageTop + messageWidth, messageLeft + messageHeight],
+        [messageTop, messageLeft + messageHeight]
+      ];
+
+      return messageCoords;
+    },
+
+    /**
+     * Функция которая возвращает массив из строк по введённому сообщению
+     * @param {string} message
+     * @return {Array}
+     * @private
+     */
+    _getMessageArray: function(message) {
+      this.ctx.font = '16px PT Mono';
+      // длинна поля сообщения
+      var messageWidth = this.canvas.width / 2;
+      var messageTextWidth = this.ctx.measureText(message).width;
+      var colString = messageTextWidth / messageWidth;
+      colString = Math.ceil(colString);
+      var drawString = '',
+        colSymbols = 0,
+        posSumbols = 0,
+        startPosition = 0,
+        lastPosition = 0,
+        colStringCurrent = 0;
+      var messageArray = [];
+
+      // узнаём количество символов, которое влезает в строку
+      for (var i = 0; i < message.length; i++) {
+        drawString += message[i];
+        if (this.ctx.measureText(drawString).width > messageWidth - 60) {
+          colSymbols = i - 1;
+          break;
+        }
+      }
+
+      for (i = 0; i < message.length; i++) {
+        posSumbols = message.indexOf(' ', posSumbols + 1);
+        if (posSumbols < colSymbols) {
+          lastPosition = posSumbols;
+          continue;
+        } else {
+          drawString = message.slice(startPosition, lastPosition);
+          colStringCurrent = colStringCurrent + 1;
+          startPosition = lastPosition;
+          colSymbols = colSymbols + colSymbols;
+          messageArray.push(drawString);
+          if (colStringCurrent + 1 === colString) {
+            drawString = message.slice(startPosition, message.length);
+            messageArray.push(drawString);
+            break;
+          }
+        }
+      }
+
+      for (i = 0; i < messageArray.length; i++) {
+        var string = messageArray[i];
+        if (string[0] === ' ') {
+          if (string[string.length] === ' ') {
+            string = string.substring(1, string.length - 1);
+          } else {
+            string = string.substring(1, string.length);
+          }
+        }
+        messageArray[i] = string;
+      }
+
+      return messageArray;
+    },
+
+    /**
+     * Функция которая рисует сообщение
+     * @param {Array.<Array>} coords
+     * @param {string} color
+     * @param {string} font
+     * @param {string} message
+     * @private
+     */
+    _drawMessage: function(coords, color, message) {
+      var drawStringCoordTop = coords[0][0];
+      var drawStringCoordLeft = coords[0][1] + 10;
+      var TOP_STEP = -10;
+      var LEFT_STEP = 20;
+
+      this._drawMessageByCoords(coords, 'rgba(0, 0, 0, 0.7)', 0);
+      this._drawMessageByCoords(coords, '#ffffff', 10);
+      this.ctx.font = '16px PT Mono';
+      this.ctx.fillStyle = color;
+
+      var messageArray = this._getMessageArray(message);
+
+      for (var i = 0; i < messageArray.length; i++) {
+        this.ctx.fillText(messageArray[i], drawStringCoordTop, drawStringCoordLeft);
+        drawStringCoordTop = drawStringCoordTop + TOP_STEP;
+        drawStringCoordLeft = drawStringCoordLeft + LEFT_STEP;
+      }
+
+    },
+
+    /**
+     * Функция которая возвращает высоту будущего поля
+     * @param {number} width
+     * @param {string} message
+     * @return {number}
+     * @private
+     */
+    _getMessageHeight: function(width, message) {
+      var messageArray = this._getMessageArray(message);
+      return 20 + (20 * messageArray.length);
+    },
+
+    /**
+     * Функция которая рисует фигуру для сообщения по координатам
+     * и делает ему тень
+     * @param {Array.<Array>} coords
+     * @param {string} color
+     * @param {number} translate
+     * @private
+     */
+    _drawMessageByCoords: function(coords, color, translate) {
+      this.ctx.fillStyle = color;
+      for (var i = 0; i <= coords.length; i++) {
+        if (i === 0) {
+          this.ctx.beginPath();
+          this.ctx.moveTo(coords[i][0] - translate, coords[i][1] - translate);
+        } else if (i === coords.length) {
+          this.ctx.lineTo(coords[0][0] - translate, coords[0][1] - translate);
+          this.ctx.fill();
+        } else {
+          this.ctx.lineTo(coords[i][0] - translate, coords[i][1] - translate);
+        }
       }
     },
 
