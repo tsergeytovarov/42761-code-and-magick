@@ -410,8 +410,8 @@
 
     /**
      * Функция которая возвращает координаты будущего сообщения с учётом высоты сообщения
-     * @param {String} message
-     * @return {Array}
+     * @param {string} message
+     * @return {Array.<Array>}
      * @private
      */
     _getMessageCoords: function(message) {
@@ -433,10 +433,10 @@
 
     /**
      * Функция которая рисует сообщение
-     * @param {Array} coords
-     * @param {String} color
-     * @param {String} font
-     * @param {String} message
+     * @param {Array.<Array>} coords
+     * @param {string} color
+     * @param {string} font
+     * @param {string} message
      * @private
      */
     _drawMessage: function(coords, color, message) {
@@ -469,9 +469,9 @@
 
     /**
      * Функция которая возвращает высоту будущего поля
-     * @param {Number} width
-     * @param {String} message
-     * @return {Number}
+     * @param {number} width
+     * @param {string} message
+     * @return {number}
      * @private
      */
     _getMessageHeight: function(width, message, step) {
@@ -495,9 +495,9 @@
     /**
      * Функция которая рисует фигуру для сообщения по координатам
      * и делает ему тень
-     * @param {Array} coords
-     * @param {String} color
-     * @param {Number} translate
+     * @param {Array.<Array>} coords
+     * @param {string} color
+     * @param {number} translate
      * @private
      */
     _drawMessageByCoords: function(coords, color, translate) {
