@@ -482,8 +482,8 @@
 
       for (i = 0; i < messageArray.length; i++) {
         var string = messageArray[i];
-        if (string[0] == ' ') {
-          if (string[string.length] == ' ') {
+        if (string[0] === ' ') {
+          if (string[string.length] === ' ') {
             string = string.substring(1, string.length - 1);
           } else {
             string = string.substring(1, string.length);
