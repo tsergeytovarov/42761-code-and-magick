@@ -444,7 +444,7 @@
       var drawStringCoordTop = coords[0][0];
       var drawStringCoordLeft = coords[0][1] + 10;
       var messageAreaWidth = coords[1][0] - coords[0][0];
-      var TOP_STEP = -20;
+      var TOP_STEP = -10;
       var LEFT_STEP = 20;
 
       this._drawMessageByCoords(coords, 'rgba(0, 0, 0, 0.7)', 0);
@@ -454,7 +454,7 @@
 
       for (var i = 0; i < message.length; i++) {
         drawString = drawString + message[i];
-        if (this.ctx.measureText(drawString).width > messageAreaWidth - 40) {
+        if (this.ctx.measureText(drawString).width > messageAreaWidth - 60) {
           this.ctx.fillText(drawString, drawStringCoordTop, drawStringCoordLeft);
           drawString = '';
           drawStringCoordTop = drawStringCoordTop + TOP_STEP;
