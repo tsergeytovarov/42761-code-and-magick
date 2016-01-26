@@ -445,12 +445,12 @@
       var colString = messageTextWidth / messageWidth;
       colString = Math.ceil(colString);
       var drawString = '',
-          colSymbols = 0,
-          posSumbols = 0,
-          startPosition = 0,
-          lastPosition = 0,
-          colStringCurrent = 0;
-      var messageArray= [];
+        colSymbols = 0,
+        posSumbols = 0,
+        startPosition = 0,
+        lastPosition = 0,
+        colStringCurrent = 0;
+      var messageArray = [];
 
       // узнаём количество символов, которое влезает в строку
       for (var i = 0; i < message.length; i++) {
@@ -483,7 +483,7 @@
       for (i = 0; i < messageArray.length; i++) {
         var string = messageArray[i];
         if (string[0] == ' ') {
-          if (string[string.lenght] === ' ') {
+          if (string[string.lenght] == ' ') {
             string = string.substring(1, string.lenght - 1);
           } else {
             string = string.substring(1, string.lenght);
@@ -506,7 +506,6 @@
     _drawMessage: function(coords, color, message) {
       var drawStringCoordTop = coords[0][0];
       var drawStringCoordLeft = coords[0][1] + 10;
-      var messageAreaWidth = coords[1][0] - coords[0][0];
       var TOP_STEP = -10;
       var LEFT_STEP = 20;
 
@@ -532,7 +531,7 @@
      * @return {number}
      * @private
      */
-    _getMessageHeight: function(width, message, step) {
+    _getMessageHeight: function(width, message) {
       var messageArray = this._getMessageArray(message);
       return 20 + (20 * messageArray.length);
     },
