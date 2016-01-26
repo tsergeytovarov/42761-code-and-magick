@@ -401,7 +401,7 @@
           break;
 
         case Verdict.INTRO:
-          message = 'Привет! Чтобы прыгнуть жми пробел,для стрельбы левый шифт. И да прибудет с тобой сила.';
+          message = 'Привет! Чтобы прыгнуть жми пробел, для стрельбы левый шифт. И да прибудет с тобой сила.';
           messageCoords = this._getMessageCoords(message);
           this._drawMessage(messageCoords, '#000000', message);
           break;
@@ -422,13 +422,77 @@
       var messageLeft = (this.canvas.height / 2) - (messageHeight / 2);
 
       var messageCoords = [
-        [messageTop + 60, messageLeft],
-        [messageTop + 60 + messageWidth, messageLeft],
+        [messageTop + 30, messageLeft],
+        [messageTop + 30 + messageWidth, messageLeft],
         [messageTop + messageWidth, messageLeft + messageHeight],
         [messageTop, messageLeft + messageHeight]
       ];
 
       return messageCoords;
+    },
+
+    /**
+     * Функция которая возвращает массив из строк по введённому сообщению
+     * @param {string} message
+     * @return {Array}
+     * @private
+     */
+    _getMessageArray: function(message) {
+      this.ctx.font = '16px PT Mono';
+      // длинна поля сообщения
+      var messageWidth = this.canvas.width / 2;
+      var messageTextWidth = this.ctx.measureText(message).width;
+      var colString = messageTextWidth / messageWidth;
+      colString = Math.ceil(colString);
+      var drawString = '',
+          colSymbols = 0,
+          posSumbols = 0,
+          startPosition = 0,
+          lastPosition = 0,
+          colStringCurrent = 0;
+      var messageArray= [];
+
+      // узнаём количество символов, которое влезает в строку
+      for (var i = 0; i < message.length; i++) {
+        drawString += message[i];
+        if (this.ctx.measureText(drawString).width > messageWidth - 60) {
+          colSymbols = i - 1;
+          break;
+        }
+      }
+
+      for (i = 0; i < message.length; i++) {
+        posSumbols = message.indexOf(' ', posSumbols + 1);
+        if (posSumbols < colSymbols) {
+          lastPosition = posSumbols;
+          continue;
+        } else {
+          drawString = message.slice(startPosition, lastPosition);
+          colStringCurrent = colStringCurrent + 1;
+          startPosition = lastPosition;
+          colSymbols = colSymbols + colSymbols;
+          messageArray.push(drawString);
+          if (colStringCurrent + 1 === colString) {
+            drawString = message.slice(startPosition, message.length);
+            messageArray.push(drawString);
+            break;
+          }
+        }
+      }
+
+      for (i = 0; i < messageArray.length; i++) {
+        var string = messageArray[i];
+        if (string[0] == ' ') {
+          if (string[string.lenght] === ' ') {
+            string = string.substring(1, string.lenght - 1);
+          } else {
+            string = string.substring(1, string.lenght);
+          }
+        }
+        messageArray[i] = string;
+      }
+
+      return messageArray;
     },
 
     /**
@@ -440,7 +504,6 @@
      * @private
      */
     _drawMessage: function(coords, color, message) {
-      var drawString = '';
       var drawStringCoordTop = coords[0][0];
       var drawStringCoordLeft = coords[0][1] + 10;
       var messageAreaWidth = coords[1][0] - coords[0][0];
@@ -452,17 +515,12 @@
       this.ctx.font = '16px PT Mono';
       this.ctx.fillStyle = color;
 
-      for (var i = 0; i < message.length; i++) {
-        drawString = drawString + message[i];
-        if (this.ctx.measureText(drawString).width > messageAreaWidth - 60) {
-          this.ctx.fillText(drawString, drawStringCoordTop, drawStringCoordLeft);
-          drawString = '';
-          drawStringCoordTop = drawStringCoordTop + TOP_STEP;
-          drawStringCoordLeft = drawStringCoordLeft + LEFT_STEP;
-        }
-        if (i + 1 === message.length) {
-          this.ctx.fillText(drawString, drawStringCoordTop, drawStringCoordLeft);
-        }
+      var messageArray = this._getMessageArray(message);
+
+      for (var i = 0; i < messageArray.length; i++) {
+        this.ctx.fillText(messageArray[i], drawStringCoordTop, drawStringCoordLeft);
+        drawStringCoordTop = drawStringCoordTop + TOP_STEP;
+        drawStringCoordLeft = drawStringCoordLeft + LEFT_STEP;
       }
 
     },
@@ -475,21 +533,8 @@
      * @private
      */
     _getMessageHeight: function(width, message, step) {
-      var messageDrawHeight = 10;
-      var widthString = '';
-      this.ctx.font = '16px PT Mono';
-      for (var i = 0; i < message.length; i++) {
-        widthString = widthString + message[i];
-        if (this.ctx.measureText(widthString).width > width - 40) {
-          widthString = '';
-          messageDrawHeight = messageDrawHeight + step;
-        }
-        if (i + 1 === message.length) {
-          messageDrawHeight = messageDrawHeight + step;
-        }
-      }
-      messageDrawHeight = messageDrawHeight + 10;
-      return messageDrawHeight;
+      var messageArray = this._getMessageArray(message);
+      return 20 + (20 * messageArray.length);
     },
 
     /**
