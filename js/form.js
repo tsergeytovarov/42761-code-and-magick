@@ -52,7 +52,7 @@
 
   /**
    * Функция которая проверяет поле на заполненность
-   * @param {Element} object
+   * @param {Element} field
    * @return {boolean}
    */
   function validateField(field) {
