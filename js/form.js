@@ -7,9 +7,14 @@
   var form = document.querySelector('.review-form');
   var formSubmit = document.querySelector('.review-submit');
   formSubmit.setAttribute('disabled', 'disabled');
+  var fields = document.querySelector('.review-fields');
   var fieldName = document.querySelector('#review-name');
   var fieldText = document.querySelector('#review-text');
-
+  var fieldLabel = document.querySelector('.review-fields label[for=\"review-text\"]');
+  var formMark = form.elements.namedItem('review-mark');
+  if (formMark.value > 2) {
+    fieldLabel.classList.add('invisible');
+  }
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -21,49 +26,44 @@
     formContainer.classList.add('invisible');
   };
 
-  form.addEventListener('change', function(evt) {
-    evt.preventDefault();
-    var fieldLabel = document.querySelector('.review-fields label[for=\"review-text\"]');
-
-    if (getMark() < 4) {
-      fieldLabel.style.display = 'inline';
-      if (validateField(fieldName) && validateField(fieldText)) {
+  form.addEventListener('change', function() {
+    if (formMark.value < 3) {
+      fieldLabel.classList.remove('invisible');
+      var isValidName = validateField(fieldName);
+      var isValidText = validateField(fieldText);
+      if (isValidName && isValidText) {
         formSubmit.removeAttribute('disabled');
+        fields.classList.add('invisible');
       } else {
         formSubmit.setAttribute('disabled', 'disabled');
+        fields.classList.remove('invisible');
       }
     } else {
-      fieldLabel.style.display = 'none';
+      fieldLabel.classList.add('invisible');
       if (validateField(fieldName)) {
         formSubmit.removeAttribute('disabled');
+        fields.classList.add('invisible');
       } else {
         formSubmit.setAttribute('disabled', 'disabled');
+        fields.classList.remove('invisible');
       }
     }
   });
 
   /**
-   * Функция которая возвращает текущую оценку
-   * @return {number}
-   */
-  function getMark() {
-    var formRadio = document.querySelector('.review-form-group-mark input[name=\"review-mark\"]:checked');
-    return formRadio.value;
-  }
-
-  /**
    * Функция которая проверяет поле на заполненность
+   * @param {Element} object
    * @return {boolean}
    */
   function validateField(field) {
     var fieldValue = field.value;
     var fieldId = field.id;
-    var fieldLabel = document.querySelector('.review-fields label[for=\"' + fieldId + '\"]');
+    var fieldLabelCurrent = document.querySelector('.review-fields label[for=\"' + fieldId + '\"]');
     if (fieldValue === '') {
-      fieldLabel.style.display = 'inline';
+      fieldLabelCurrent.classList.remove('invisible');
       return false;
     } else {
-      fieldLabel.style.display = 'none';
+      fieldLabelCurrent.classList.add('invisible');
       return true;
     }
   }
