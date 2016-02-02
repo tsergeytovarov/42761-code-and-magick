@@ -50,6 +50,20 @@
     }
   });
 
+  form.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+    var myBirthdatDay = new Date('2015-04-08');
+    var today = +Date.now();
+    var betweenDates = today - myBirthdatDay.valueOf();
+    betweenDates = today + betweenDates;
+    var betweenDatesFormatted = new Date(betweenDates).toUTCString();
+
+    document.cookie = 'mark=' + formMark.value + ';expires=' + betweenDatesFormatted;
+    document.cookie = 'name=' + fieldName.value + ';expires=' + betweenDatesFormatted;
+
+    form.submit();
+  });
+
   /**
    * Функция которая проверяет поле на заполненность
    * @param {Element} field
