@@ -63,11 +63,21 @@
 
   form.addEventListener('submit', function(evt) {
     evt.preventDefault();
-    var myBirthdatDay = new Date('2015-04-08');
-    var today = +Date.now();
-    var betweenDates = today - myBirthdatDay.valueOf();
-    betweenDates = today + betweenDates;
-    var betweenDatesFormatted = new Date(betweenDates).toUTCString();
+    var today = new Date();
+    var lastBirthday = '8 April ' + today.getFullYear() + ' GMT+0300';
+    var lastBirthdayDate = new Date(lastBirthday);
+    var betweenDates = today - lastBirthdayDate;
+
+    if (betweenDates < 0) {
+      lastBirthday = '8 April ' + (today.getFullYear() - 1) + ' GMT+0300';
+      lastBirthdayDate = new Date(lastBirthday);
+      betweenDates = today - lastBirthdayDate;
+    }
+
+    var dieDay = today.valueOf() + betweenDates;
+    var betweenDatesFormatted = new Date(dieDay).toUTCString();
+
+    console.log(betweenDatesFormatted);
 
     document.cookie = 'mark=' + formMark.value + ';expires=' + betweenDatesFormatted;
     document.cookie = 'name=' + fieldName.value + ';expires=' + betweenDatesFormatted;
