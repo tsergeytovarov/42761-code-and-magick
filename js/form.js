@@ -11,15 +11,20 @@
   var fields = document.querySelector('.review-fields');
   var fieldName = document.querySelector('#review-name');
   var fieldText = document.querySelector('#review-text');
+  var fieldLabelName = document.querySelector('.review-fields label[for=\"review-name\"]');
   var fieldLabel = document.querySelector('.review-fields label[for=\"review-text\"]');
   var formMark = form.elements.namedItem('review-mark');
 
   if (docCookies) {
-    if (docCookies.getItem('name') !== null) {
+    if (docCookies.hasItem('name')) {
       fieldName.value = docCookies.getItem('name');
+      fieldLabelName.classList.add('invisible');
     }
-    if (docCookies.getItem('mark') !== null) {
+    if (docCookies.hasItem('mark')) {
       formMark.value = docCookies.getItem('mark');
+      if ((docCookies.getItem('mark') > 2) && docCookies.hasItem('name')) {
+        formSubmit.disabled = false;
+      }
     }
   }
 
@@ -43,19 +48,19 @@
       var isValidName = validateField(fieldName);
       var isValidText = validateField(fieldText);
       if (isValidName && isValidText) {
-        formSubmit.removeAttribute('disabled');
+        formSubmit.disabled = false;
         fields.classList.add('invisible');
       } else {
-        formSubmit.setAttribute('disabled', 'disabled');
+        formSubmit.disabled = true;
         fields.classList.remove('invisible');
       }
     } else {
       fieldLabel.classList.add('invisible');
       if (validateField(fieldName)) {
-        formSubmit.removeAttribute('disabled');
+        formSubmit.disabled = false;
         fields.classList.add('invisible');
       } else {
-        formSubmit.setAttribute('disabled', 'disabled');
+        formSubmit.disabled = true;
         fields.classList.remove('invisible');
       }
     }
