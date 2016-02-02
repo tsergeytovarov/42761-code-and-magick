@@ -434,6 +434,8 @@ footer p {
   margin: 0 10px;
 
   color: #ffffff;
+
+  cursor: pointer;
 }
 
 input[type=radio]:checked + .review-mark-label {
@@ -484,6 +486,8 @@ input[type=radio]:checked + .review-mark-label {
 
   background: #ffffff;
   border: 0;
+
+  cursor: pointer;
 }
 
 .review-fields {
