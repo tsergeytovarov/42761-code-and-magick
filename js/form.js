@@ -1,3 +1,4 @@
+/* global docCookies: true */
 'use strict';
 
 (function() {
@@ -12,6 +13,16 @@
   var fieldText = document.querySelector('#review-text');
   var fieldLabel = document.querySelector('.review-fields label[for=\"review-text\"]');
   var formMark = form.elements.namedItem('review-mark');
+
+  if (docCookies) {
+    if (docCookies.getItem('name') !== null) {
+      fieldName.value = docCookies.getItem('name');
+    }
+    if (docCookies.getItem('mark') !== null) {
+      formMark.value = docCookies.getItem('mark');
+    }
+  }
+
   if (formMark.value > 2) {
     fieldLabel.classList.add('invisible');
   }
