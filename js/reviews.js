@@ -1,4 +1,3 @@
-/* global reviews: true */
 'use strict';
 
 (function() {
@@ -12,7 +11,7 @@
 
   getReviews();
 
-  reviewsFilter.addEventListener('change', function(evt){
+  reviewsFilter.addEventListener('change', function(evt) {
     switch (evt.target.value) {
       case 'reviews-all':
         drawReviews(loadedReviews);
@@ -71,7 +70,7 @@
     var reviewText = reviewElement.querySelector('.review-text');
 
     var reviewRating = reviewElement.querySelector('.review-rating');
-    var ratingArray = ['','two','three','four','five'];
+    var ratingArray = ['', 'two', 'three', 'four', 'five'];
     if (data.rating !== 1) {
       reviewRating.classList.add('review-rating-' + ratingArray[data.rating - 1]);
     }
@@ -149,12 +148,12 @@
 
     // событие если ошибка
     xhr.onerror = function() {
-      picturesContainer.classList.add('reviews-load-failure');
+      reviewsWrapper.classList.add('reviews-load-failure');
     };
 
     // событие по тайауту
     xhr.ontimeout = function() {
-      picturesContainer.classList.add('reviews-load-failure');
+      reviewsWrapper.classList.add('reviews-load-failure');
     };
 
     // событие по загрузке
