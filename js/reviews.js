@@ -29,23 +29,25 @@
 
     switch (data.rating) {
       case 1:
-        ratingClass = '';
         break;
       case 2:
         ratingClass = 'review-rating-two';
+        reviewRating.classList.add(ratingClass);
         break;
       case 3:
         ratingClass = 'review-rating-three';
+        reviewRating.classList.add(ratingClass);
         break;
       case 4:
         ratingClass = 'review-rating-four';
+        reviewRating.classList.add(ratingClass);
         break;
       case 5:
         ratingClass = 'review-rating-five';
+        reviewRating.classList.add(ratingClass);
         break;
     }
 
-    reviewRating.classList.add(ratingClass);
     reviewText.textContent = data.description;
 
     var reviewImage = new Image(124, 124);
