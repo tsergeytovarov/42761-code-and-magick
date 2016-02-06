@@ -30,7 +30,16 @@
         });
         drawReviews(filterNewList);
         break;
-
+      case 'reviews-good':
+        var reteUpList = loadedReviews.slice(0);
+        reteUpList.sort(function(a, b) {
+          return b.rating - a.rating;
+        });
+        var filterRateUpList = reteUpList.filter(function(reviewRate) {
+          return reviewRate.rating > 2;
+        });
+        drawReviews(filterRateUpList);
+        break;
     }
   });
 
