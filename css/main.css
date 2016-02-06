@@ -266,15 +266,14 @@ input[type=radio]:checked + .reviews-filter-item {
 }
 
 .review-rating {
-  display: inline-block;
+  display: block;
   width: 30px;
   height: 30px;
 
   vertical-align: top;
-  
+
   background: url("../img/icon-star.png") top left repeat-x;
 }
-
 
 .review-rating-two {
   width: 60px;

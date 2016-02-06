@@ -107,7 +107,7 @@
 </div>
 
 
-<template id="review-template">
+<template id="review-template" style="display: none">
   <article class="review">
     <img src="" class="review-author" alt="" title="">
     <span class="review-rating"></span>
@@ -121,12 +121,8 @@
 </template>
 
 <script>
-  var reviews = new Array();
+  var reviews = [];
 
-  /**
-   *
-   * @param {Array} data
-   */
   function __reviewsLoadCallback(data) {
     reviews = data;
   }

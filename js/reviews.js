@@ -20,36 +20,32 @@
    * @return {Element}
    */
   function getReviewTemplate(data) {
-    var reviewTemplate = document.querySelector('#review-template');
-
-    var reviewElement;
-
-    /* for IE */
-    if ('content' in reviewTemplate) {
-      reviewElement = reviewTemplate.content.children[0].cloneNode(true);
-    } else {
-      reviewElement = reviewTemplate.children[0].cloneNode(true);
-    }
+    var reviewElement = cloneReviewTemplate();
 
     var reviewText = reviewElement.querySelector('.review-text');
 
-    var reviewRatiogOld = reviewElement.querySelector('.review-rating');
-    reviewElement.removeChild(reviewRatiogOld);
+    var reviewRating = reviewElement.querySelector('.review-rating');
+    var ratingClass;
 
-    var reviewRatingNew;
-
-    var ratingContainer = document.createElement('div');
-    ratingContainer.classList.add('ratingContainer');
-    reviewElement.insertBefore(ratingContainer, reviewText);
-    var rating = data.rating;
-    console.log(rating);
-
-    for (var i = 0; i < rating; i++) {
-      reviewRatingNew = document.createElement('span');
-      reviewRatingNew.classList.add('review-rating');
-      ratingContainer.appendChild(reviewRatingNew);
+    switch (data.rating) {
+      case 1:
+        ratingClass = '';
+        break;
+      case 2:
+        ratingClass = 'review-rating-two';
+        break;
+      case 3:
+        ratingClass = 'review-rating-three';
+        break;
+      case 4:
+        ratingClass = 'review-rating-four';
+        break;
+      case 5:
+        ratingClass = 'review-rating-five';
+        break;
     }
 
+    reviewRating.classList.add(ratingClass);
     reviewText.textContent = data.description;
 
     var reviewImage = new Image(124, 124);
@@ -78,5 +74,20 @@
     }, REVIEW_IMAGE_TIMEOUT);
 
     return reviewElement;
+  }
+
+  /**
+   * Функция превращающая данные в шаблон
+   * @return {Element}
+   */
+  function cloneReviewTemplate() {
+    var reviewTemplate = document.querySelector('#review-template');
+
+    /* for IE */
+    if ('content' in reviewTemplate) {
+      return reviewTemplate.content.children[0].cloneNode(true);
+    } else {
+      return reviewTemplate.children[0].cloneNode(true);
+    }
   }
 })();
