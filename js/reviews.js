@@ -7,7 +7,7 @@
 
   var reviewsContainer = document.querySelector('.reviews-list');
 
-  reviews.forEach(function(item, i) {
+  reviews.forEach(function(item) {
     var review = getReviewTemplate(item);
     reviewsContainer.appendChild(review);
   });
@@ -22,11 +22,13 @@
   function getReviewTemplate(data) {
     var reviewTemplate = document.querySelector('#review-template');
 
+    var reviewElement;
+
     /* for IE */
     if ('content' in reviewTemplate) {
-      var reviewElement = reviewTemplate.content.children[0].cloneNode(true);
+      reviewElement = reviewTemplate.content.children[0].cloneNode(true);
     } else {
-      var reviewElement = reviewTemplate.children[0].cloneNode(true);
+      reviewElement = reviewTemplate.children[0].cloneNode(true);
     }
 
     var reviewText = reviewElement.querySelector('.review-text');
@@ -43,7 +45,7 @@
     console.log(rating);
 
     for (var i = 0; i < rating; i++) {
-      var reviewRatingNew = document.createElement('span');
+      reviewRatingNew = document.createElement('span');
       reviewRatingNew.classList.add('review-rating');
       ratingContainer.appendChild(reviewRatingNew);
     }
