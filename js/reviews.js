@@ -7,6 +7,7 @@
 
   var reviewsContainer = document.querySelector('.reviews-list');
 
+
   reviews.forEach(function(item) {
     var review = getReviewTemplate(item);
     reviewsContainer.appendChild(review);
@@ -61,7 +62,7 @@
   }
 
   /**
-   * Функция превращающая данные в шаблон
+   * Функция забирающая шаблон из HTML
    * @return {Element}
    */
   function cloneReviewTemplate() {
