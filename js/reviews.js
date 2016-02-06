@@ -25,27 +25,9 @@
     var reviewText = reviewElement.querySelector('.review-text');
 
     var reviewRating = reviewElement.querySelector('.review-rating');
-    var ratingClass;
-
-    switch (data.rating) {
-      case 1:
-        break;
-      case 2:
-        ratingClass = 'review-rating-two';
-        reviewRating.classList.add(ratingClass);
-        break;
-      case 3:
-        ratingClass = 'review-rating-three';
-        reviewRating.classList.add(ratingClass);
-        break;
-      case 4:
-        ratingClass = 'review-rating-four';
-        reviewRating.classList.add(ratingClass);
-        break;
-      case 5:
-        ratingClass = 'review-rating-five';
-        reviewRating.classList.add(ratingClass);
-        break;
+    var ratingArray = ['','two','three','four','five'];
+    if (data.rating !== 1) {
+      reviewRating.classList.add('review-rating-' + ratingArray[data.rating - 1]);
     }
 
     reviewText.textContent = data.description;
