@@ -12,6 +12,28 @@
 
   getReviews();
 
+  reviewsFilter.addEventListener('change', function(evt){
+    switch (evt.target.value) {
+      case 'reviews-all':
+        drawReviews(loadedReviews);
+        break;
+      case 'reviews-recent':
+        var dateList = loadedReviews.slice(0);
+        dateList.sort(function(a, b) {
+          return b.date - a.date;
+        });
+        var filterNewList = dateList.filter(function(reviewDate) {
+          // делаем выборку за последние 14 дней
+          var lastTwoWeeks = Date.now() - 14 * 24 * 60 * 60 * 1000;
+          var reviewDateMs = new Date(reviewDate.date);
+          return +reviewDateMs > lastTwoWeeks;
+        });
+        drawReviews(filterNewList);
+        break;
+
+    }
+  });
+
   /**
    * Функция превращающая данные в шаблон
    * @param {Object} data
@@ -79,6 +101,7 @@
    * @return {Element}
    */
   function drawReviews(data) {
+    reviewsContainer.innerHTML = '';
     data.forEach(function(item) {
       var review = getReviewTemplate(item);
       reviewsContainer.appendChild(review);
