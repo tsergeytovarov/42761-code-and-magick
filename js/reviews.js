@@ -40,6 +40,16 @@
         });
         drawReviews(filterRateUpList);
         break;
+      case 'reviews-bad':
+        var reteDownList = loadedReviews.slice(0);
+        reteDownList.sort(function(a, b) {
+          return a.rating - b.rating;
+        });
+        var filterRateDownList = reteDownList.filter(function(reviewRate) {
+          return reviewRate.rating < 3;
+        });
+        drawReviews(filterRateDownList);
+        break;
     }
   });
 
