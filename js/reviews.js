@@ -87,7 +87,7 @@
 
     /* for IE */
     if ('content' in reviewTemplate) {
-      return reviewTemplate.content.children[0].cloneNode(true);
+      return reviewTemplate.content.querySelector('.review').cloneNode(true);
     } else {
       return reviewTemplate.children[0].cloneNode(true);
     }
