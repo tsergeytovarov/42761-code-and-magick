@@ -50,6 +50,13 @@
         });
         drawReviews(filterRateDownList);
         break;
+      case 'reviews-popular':
+        var retePopularList = loadedReviews.slice(0);
+        retePopularList.sort(function(a, b) {
+          return a.review_usefulness - b.review_usefulness;
+        });
+        drawReviews(retePopularList);
+        break;
     }
   });
 
