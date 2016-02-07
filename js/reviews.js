@@ -121,7 +121,7 @@
 
   /**
    * Функция рисующая отзывы из данных
-   * @param {Array.Object} data
+   * @param {Array.<Object>} data
    */
   function drawReviews(data) {
     reviewsContainer.innerHTML = '';
