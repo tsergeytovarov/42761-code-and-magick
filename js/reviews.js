@@ -12,16 +12,18 @@
   getReviews();
 
   reviewsFilter.addEventListener('change', function(evt) {
+
+    var cloneLoadedReviews = loadedReviews.slice(0);
+
     switch (evt.target.value) {
       case 'reviews-all':
-        drawReviews(loadedReviews);
+        drawReviews(cloneLoadedReviews);
         break;
       case 'reviews-recent':
-        var dateList = loadedReviews.slice(0);
-        dateList.sort(function(a, b) {
+        cloneLoadedReviews.sort(function(a, b) {
           return b.date - a.date;
         });
-        var filterNewList = dateList.filter(function(reviewDate) {
+        var filterNewList = cloneLoadedReviews.filter(function(reviewDate) {
           // делаем выборку за последние 14 дней
           var lastTwoWeeks = Date.now() - 14 * 24 * 60 * 60 * 1000;
           var reviewDateMs = new Date(reviewDate.date);
@@ -30,31 +32,28 @@
         drawReviews(filterNewList);
         break;
       case 'reviews-good':
-        var reteUpList = loadedReviews.slice(0);
-        reteUpList.sort(function(a, b) {
+        cloneLoadedReviews.sort(function(a, b) {
           return b.rating - a.rating;
         });
-        var filterRateUpList = reteUpList.filter(function(reviewRate) {
+        var filterRateUpList = cloneLoadedReviews.filter(function(reviewRate) {
           return reviewRate.rating > 2;
         });
         drawReviews(filterRateUpList);
         break;
       case 'reviews-bad':
-        var reteDownList = loadedReviews.slice(0);
-        reteDownList.sort(function(a, b) {
+        cloneLoadedReviews.sort(function(a, b) {
           return a.rating - b.rating;
         });
-        var filterRateDownList = reteDownList.filter(function(reviewRate) {
+        var filterRateDownList = cloneLoadedReviews.filter(function(reviewRate) {
           return reviewRate.rating < 3;
         });
         drawReviews(filterRateDownList);
         break;
       case 'reviews-popular':
-        var retePopularList = loadedReviews.slice(0);
-        retePopularList.sort(function(a, b) {
+        cloneLoadedReviews.sort(function(a, b) {
           return a.review_usefulness - b.review_usefulness;
         });
-        drawReviews(retePopularList);
+        drawReviews(cloneLoadedReviews);
         break;
     }
   });
@@ -125,7 +124,6 @@
    * @param {Array.Object} data
    */
   function drawReviews(data) {
-    console.log(data);
     reviewsContainer.innerHTML = '';
     data.forEach(function(item) {
       var review = getReviewTemplate(item);
