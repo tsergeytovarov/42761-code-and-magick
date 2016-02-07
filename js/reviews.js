@@ -122,10 +122,10 @@
 
   /**
    * Функция рисующая отзывы из данных
-   * @param {Array.Array} data
-   * @return {Element}
+   * @param {Array.Object} data
    */
   function drawReviews(data) {
+    console.log(data);
     reviewsContainer.innerHTML = '';
     data.forEach(function(item) {
       var review = getReviewTemplate(item);
