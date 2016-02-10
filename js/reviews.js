@@ -17,7 +17,7 @@
 
     switch (evt.target.value) {
       case 'reviews-all':
-        drawReviews(cloneLoadedReviews);
+        drawReviews(cloneLoadedReviews, true);
         break;
       case 'reviews-recent':
         cloneLoadedReviews.sort(function(a, b) {
@@ -29,7 +29,7 @@
           var reviewDateMs = new Date(reviewDate.date);
           return +reviewDateMs > lastTwoWeeks;
         });
-        drawReviews(filterNewList);
+        drawReviews(filterNewList, true);
         break;
       case 'reviews-good':
         cloneLoadedReviews.sort(function(a, b) {
@@ -38,7 +38,7 @@
         var filterRateUpList = cloneLoadedReviews.filter(function(reviewRate) {
           return reviewRate.rating > 2;
         });
-        drawReviews(filterRateUpList);
+        drawReviews(filterRateUpList, true);
         break;
       case 'reviews-bad':
         cloneLoadedReviews.sort(function(a, b) {
@@ -47,13 +47,13 @@
         var filterRateDownList = cloneLoadedReviews.filter(function(reviewRate) {
           return reviewRate.rating < 3;
         });
-        drawReviews(filterRateDownList);
+        drawReviews(filterRateDownList, true);
         break;
       case 'reviews-popular':
         cloneLoadedReviews.sort(function(a, b) {
           return a.review_usefulness - b.review_usefulness;
         });
-        drawReviews(cloneLoadedReviews);
+        drawReviews(cloneLoadedReviews, true);
         break;
     }
   });
@@ -122,9 +122,12 @@
   /**
    * Функция рисующая отзывы из данных
    * @param {Array.<Object>} data
+   * @param {boolean} clear
    */
-  function drawReviews(data) {
-    reviewsContainer.innerHTML = '';
+  function drawReviews(data, clear) {
+    if (clear) {
+      reviewsContainer.innerHTML = '';
+    }
     data.forEach(function(item) {
       var review = getReviewTemplate(item);
       reviewsContainer.appendChild(review);
@@ -161,7 +164,7 @@
       var loadedData = evt.target.response;
       loadedReviews = JSON.parse(loadedData);
 
-      drawReviews(loadedReviews);
+      drawReviews(loadedReviews, true);
     };
 
     xhr.send();
