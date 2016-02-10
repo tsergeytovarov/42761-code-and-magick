@@ -849,4 +849,14 @@
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+
+  document.addEventListener('scroll', function() {
+    var scrollTimeout,
+      cloudPosition = 0;
+    var clouds = document.querySelector('.header-clouds');
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function(){
+      clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + "px 0";
+    }, 40);
+  });
 })();
