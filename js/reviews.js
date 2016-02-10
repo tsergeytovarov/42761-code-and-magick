@@ -9,6 +9,9 @@
 
   var loadedReviews;
 
+  var STEP_ITEM = 3;
+  var currentStep = 0;
+
   getReviews();
 
   reviewsFilter.addEventListener('change', function(evt) {
@@ -127,11 +130,14 @@
   function drawReviews(data, clear) {
     if (clear) {
       reviewsContainer.innerHTML = '';
+      currentStep = 0;
     }
+    data = data.slice(currentStep * STEP_ITEM, STEP_ITEM);
     data.forEach(function(item) {
       var review = getReviewTemplate(item);
       reviewsContainer.appendChild(review);
     });
+    currentStep++;
   }
 
   /**
