@@ -855,10 +855,15 @@
       cloudPosition = 0;
     var clouds = document.querySelector('.header-clouds');
     var cloudsCoord = clouds.getBoundingClientRect();
+    var gameDemo = document.querySelector('.demo');
+    var gameDemoCoord = gameDemo.getBoundingClientRect();
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function(){
       if (cloudsCoord.bottom > 0) {
         clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + "px 0";
+      }
+      if (gameDemoCoord.bottom < 0) {
+        game.setGameStatus(window.Game.Verdict.PAUSE);
       }
     }, 100);
   });
