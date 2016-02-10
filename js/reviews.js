@@ -7,10 +7,12 @@
   var reviewsWrapper = document.querySelector('.reviews');
   var reviewsContainer = document.querySelector('.reviews-list');
 
-  var loadedReviews;
+  var loadedReviews,
+    currentLoadedReviews;
 
   var STEP_ITEM = 3;
   var currentStep = 0;
+  var reviewsMore = document.querySelector(".reviews-controls-more");
 
   getReviews();
 
@@ -21,6 +23,7 @@
     switch (evt.target.value) {
       case 'reviews-all':
         drawReviews(cloneLoadedReviews, true);
+        currentLoadedReviews = cloneLoadedReviews;
         break;
       case 'reviews-recent':
         cloneLoadedReviews.sort(function(a, b) {
@@ -33,6 +36,7 @@
           return +reviewDateMs > lastTwoWeeks;
         });
         drawReviews(filterNewList, true);
+        currentLoadedReviews = filterNewList;
         break;
       case 'reviews-good':
         cloneLoadedReviews.sort(function(a, b) {
@@ -42,6 +46,7 @@
           return reviewRate.rating > 2;
         });
         drawReviews(filterRateUpList, true);
+        currentLoadedReviews = filterRateUpList;
         break;
       case 'reviews-bad':
         cloneLoadedReviews.sort(function(a, b) {
@@ -51,12 +56,14 @@
           return reviewRate.rating < 3;
         });
         drawReviews(filterRateDownList, true);
+        currentLoadedReviews = filterRateDownList;
         break;
       case 'reviews-popular':
         cloneLoadedReviews.sort(function(a, b) {
           return a.review_usefulness - b.review_usefulness;
         });
         drawReviews(cloneLoadedReviews, true);
+        currentLoadedReviews = cloneLoadedReviews;
         break;
     }
   });
@@ -132,12 +139,20 @@
       reviewsContainer.innerHTML = '';
       currentStep = 0;
     }
-    data = data.slice(currentStep * STEP_ITEM, STEP_ITEM);
+    var dataLenght = data.length;
+    var sliceStart = currentStep * STEP_ITEM;
+    var sliceEnd = sliceStart + STEP_ITEM;
+    data = data.slice(sliceStart, sliceEnd);
     data.forEach(function(item) {
       var review = getReviewTemplate(item);
       reviewsContainer.appendChild(review);
     });
-    currentStep++;
+    if (sliceEnd < dataLenght) {
+      reviewsMore.classList.remove('invisible');
+      currentStep++;
+    } else {
+      reviewsMore.classList.add('invisible');
+    }
   }
 
   /**
@@ -171,6 +186,12 @@
       loadedReviews = JSON.parse(loadedData);
 
       drawReviews(loadedReviews, true);
+      currentLoadedReviews = loadedReviews;
+
+      reviewsMore.addEventListener('click', function(evt){
+        evt.preventDefault();
+        drawReviews(currentLoadedReviews, false);
+      });
     };
 
     xhr.send();
