@@ -858,9 +858,9 @@
     var gameDemo = document.querySelector('.demo');
     var gameDemoCoord = gameDemo.getBoundingClientRect();
     clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(function(){
+    scrollTimeout = setTimeout(function() {
       if (cloudsCoord.bottom > 0) {
-        clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + "px 0";
+        clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + 'px 0';
       }
       if (gameDemoCoord.bottom < 0) {
         game.setGameStatus(window.Game.Verdict.PAUSE);
