@@ -850,6 +850,8 @@
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
 
+  var canDraw = true;
+
   document.addEventListener('scroll', function() {
     var scrollTimeout,
       cloudPosition = 0;
@@ -857,10 +859,16 @@
     var cloudsCoord = clouds.getBoundingClientRect();
     var gameDemo = document.querySelector('.demo');
     var gameDemoCoord = gameDemo.getBoundingClientRect();
+    console.log(canDraw);
+    if (canDraw) {
+      clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + 'px 0';
+    }
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {
-      if (cloudsCoord.bottom > 0) {
-        clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + 'px 0';
+      if (cloudsCoord.bottom < 0) {
+        canDraw = false;
+      } else {
+        canDraw = true;
       }
       if (gameDemoCoord.bottom < 0) {
         game.setGameStatus(window.Game.Verdict.PAUSE);
