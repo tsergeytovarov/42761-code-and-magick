@@ -854,9 +854,12 @@
     var scrollTimeout,
       cloudPosition = 0;
     var clouds = document.querySelector('.header-clouds');
+    var cloudsCoord = clouds.getBoundingClientRect();
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function(){
-      clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + "px 0";
-    }, 40);
+      if (cloudsCoord.bottom > 0) {
+        clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + "px 0";
+      }
+    }, 100);
   });
 })();
