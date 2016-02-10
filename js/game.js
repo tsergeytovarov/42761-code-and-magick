@@ -859,7 +859,6 @@
     var cloudsCoord = clouds.getBoundingClientRect();
     var gameDemo = document.querySelector('.demo');
     var gameDemoCoord = gameDemo.getBoundingClientRect();
-    console.log(canDraw);
     if (canDraw) {
       clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + 'px 0';
     }
