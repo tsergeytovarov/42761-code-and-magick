@@ -850,24 +850,38 @@
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
 
-  var canDraw = true;
+  var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+  window.requestAnimationFrame = requestAnimationFrame;
+
+  var cloudPosition = 0,
+    cloudAnimation = true;
+
+  var clouds = document.querySelector('.header-clouds');
+
+  function animationStep() {
+    if (cloudAnimation) {
+      clouds.style.backgroundPosition = cloudPosition + 'px 0';
+      cloudPosition++;
+    }
+    requestAnimationFrame(animationStep);
+  }
+
+  requestAnimationFrame(animationStep);
+
 
   document.addEventListener('scroll', function() {
-    var scrollTimeout,
-      cloudPosition = 0;
-    var clouds = document.querySelector('.header-clouds');
+    var scrollTimeout;
+
     var cloudsCoord = clouds.getBoundingClientRect();
+
     var gameDemo = document.querySelector('.demo');
     var gameDemoCoord = gameDemo.getBoundingClientRect();
-    if (canDraw) {
-      clouds.style.backgroundPosition = cloudPosition + window.pageYOffset + 'px 0';
-    }
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {
       if (cloudsCoord.bottom < 0) {
-        canDraw = false;
+        cloudAnimation = false;
       } else {
-        canDraw = true;
+        cloudAnimation = true;
       }
       if (gameDemoCoord.bottom < 0) {
         game.setGameStatus(window.Game.Verdict.PAUSE);
