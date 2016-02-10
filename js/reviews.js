@@ -12,7 +12,7 @@
 
   var STEP_ITEM = 3;
   var currentStep = 0;
-  var reviewsMore = document.querySelector(".reviews-controls-more");
+  var reviewsMore = document.querySelector('.reviews-controls-more');
 
   getReviews();
 
@@ -188,8 +188,8 @@
       drawReviews(loadedReviews, true);
       currentLoadedReviews = loadedReviews;
 
-      reviewsMore.addEventListener('click', function(evt){
-        evt.preventDefault();
+      reviewsMore.addEventListener('click', function(event) {
+        event.preventDefault();
         drawReviews(currentLoadedReviews, false);
       });
     };
